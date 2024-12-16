@@ -1,14 +1,14 @@
 /* src/components/Cart.css */
 .cart-container {
     padding: 1rem;
-  }
+}
   
-  .cart-container ul {
+.cart-container ul {
     list-style-type: none;
     padding: 0;
-  }
+}
   
-  .cart-container li {
+.cart-container li {
     margin-bottom: 0.5rem;
-  }
+}
   

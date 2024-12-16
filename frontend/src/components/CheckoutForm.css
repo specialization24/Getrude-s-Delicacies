@@ -1,0 +1,39 @@
+/* src/components/CheckoutForm.css */
+.checkout-form {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+.checkout-form form {
+    display: flex;
+    flex-direction: column;
+}
+  
+.checkout-form button {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+.checkout-form button:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+}
+  
+.error {
+    color: red;
+    margin-top: 1rem;
+}
+  
+.success {
+    color: green;
+    margin-top: 1rem;
+}

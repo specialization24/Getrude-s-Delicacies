@@ -7,6 +7,7 @@ import Cart from './components/Cart';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import OrderHistory from './pages/OrderHistory';
+import Checkout from './pages/Checkout';
 import PrivateRoute from './components/PrivateRoute';
 
 function App() {
@@ -36,6 +37,14 @@ function App() {
           element={
             <PrivateRoute>
               <OrderHistory />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <PrivateRoute>
+              <Checkout cartTotal={100} />
             </PrivateRoute>
           }
         />
