@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Cart.css';
 
-const Cart = ({ cart }) => {
+const Cart = ({ cart, clearCart }) => {
   const navigate = useNavigate();
 
   const handleCheckout = () => {
@@ -27,6 +27,10 @@ const Cart = ({ cart }) => {
           {/* Proceed to Checkout button */}
           <button onClick={handleCheckout} className="checkout-button">
             Proceed to Checkout
+          </button>
+          {/* Clear cart */}
+          <button onClick={clearCart} style={{ marginLeft: '1rem' }}>
+            Clear Cart
           </button>
         </div>
       )}

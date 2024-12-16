@@ -17,6 +17,10 @@ function App() {
     setCart([...cart, product]);
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <Router>
       <Navbar />
@@ -28,7 +32,7 @@ function App() {
           path="/cart"
           element={
             <PrivateRoute>
-              <Cart cart={cart} />
+              <Cart cart={cart} clearCart={clearCart} />
             </PrivateRoute>
           }
         />
@@ -44,7 +48,7 @@ function App() {
           path="/checkout"
           element={
             <PrivateRoute>
-              <Checkout cartTotal={100} />
+              <Checkout cart={cart} cartTotal={100} clearCart={clearCart} />
             </PrivateRoute>
           }
         />
