@@ -16,6 +16,8 @@ const CheckoutForm = ({ amount, cartItems, clearCart }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
+    setError(null);
+    setSuccess(false);
 
     try {
       const token = localStorage.getItem('token');
