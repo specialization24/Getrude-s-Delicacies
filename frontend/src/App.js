@@ -48,7 +48,7 @@ function App() {
           path="/checkout"
           element={
             <PrivateRoute>
-              <Checkout cart={cart} cartTotal={100} clearCart={clearCart} />
+              <Checkout cart={cart} clearCart={clearCart} />
             </PrivateRoute>
           }
         />
