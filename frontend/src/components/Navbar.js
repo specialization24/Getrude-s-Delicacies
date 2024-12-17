@@ -1,6 +1,6 @@
 // src/components/Navbar.js
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -17,19 +17,21 @@ const Navbar = () => {
     <nav>
       <h1>Getrude's Delicacies</h1>
       <div>
-        <Link to="/">Home</Link>
+        {/* Use NavLink for active link highlighting */}
+        <NavLink to="/" activeClassName="active-link">Home</NavLink>
+        
         {isLoggedIn ? (
           <>
-            <Link to="/cart">Cart</Link>
+            <NavLink to="/cart" activeClassName="active-link">Cart</NavLink>
             <button onClick={handleLogout} className="logout-button">
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Signup</Link>
-            <Link to="/order-history">Order History</Link>
+            <NavLink to="/login" activeClassName="active-link">Login</NavLink>
+            <NavLink to="/signup" activeClassName="active-link">Signup</NavLink>
+            <NavLink to="/order-history" activeClassName="active-link">Order History</NavLink>
           </>
         )}
       </div>

@@ -6,6 +6,7 @@ import './ProductList.css';
 
 const ProductList = ({ addToCart }) => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -14,19 +15,24 @@ const ProductList = ({ addToCart }) => {
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchProducts();
   }, []);
 
-  return (
+  return loading ? (
+    <p>Loading products...</p> // Show loading message while products are being fetched
+  ) : (
     <div className="product-grid">
       {products.map(product => (
         <ProductCard key={product._id} product={product} addToCart={addToCart} />
       ))}
     </div>
   );
+
 };
 
 export default ProductList;

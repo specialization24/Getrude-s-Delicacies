@@ -83,3 +83,8 @@ nav a,
     justify-content: flex-end;
   }
 }
+
+.active-link {
+  font-weight: bold;
+  border-bottom: 2px solid #74b9ff;
+}

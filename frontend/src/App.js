@@ -9,6 +9,8 @@ import Signup from './pages/Signup';
 import OrderHistory from './pages/OrderHistory';
 import Checkout from './pages/Checkout';
 import PrivateRoute from './components/PrivateRoute';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -22,38 +24,41 @@ function App() {
   };
 
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<ProductList addToCart={addToCart} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/cart"
-          element={
-            <PrivateRoute>
-              <Cart cart={cart} clearCart={clearCart} />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/order-history"
-          element={
-            <PrivateRoute>
-              <OrderHistory />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/checkout"
-          element={
-            <PrivateRoute>
-              <Checkout cart={cart} clearCart={clearCart} />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
-    </Router>
+    <>
+      <ToastContainer />
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<ProductList addToCart={addToCart} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/cart"
+            element={
+              <PrivateRoute>
+                <Cart cart={cart} clearCart={clearCart} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/order-history"
+            element={
+              <PrivateRoute>
+                <OrderHistory />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <PrivateRoute>
+                <Checkout cart={cart} clearCart={clearCart} />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
