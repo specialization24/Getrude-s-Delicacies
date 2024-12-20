@@ -16,11 +16,21 @@ router.post('/', async (req, res) => {
 	}
 });
 
-// Get all products
+// Get products with optional category filter
 router.get('/', async (req, res) => {
+	const { category, page = 1, limit = 8 } = req.query;
+	const filter = category ? { category } : {};
+
 	try {
-		const products = await Product.find();
-		res.json(products);
+		const products = await Product.find(filter).skip((page - 1) * limit).limit(Number(limit));
+
+		const totalProducts = await Product.countDocuments(filter);
+
+		res.json({
+			products,
+			totalPages: Math.ceil(totalProducts / limit),  // Calculate total pages
+			currentPage: Number(page),  // Return the current page number
+		});
 	} catch (err) {
 		res.status(500).json({ error: 'Server error' });
 	}

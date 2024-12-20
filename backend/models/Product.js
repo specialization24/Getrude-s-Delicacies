@@ -6,7 +6,7 @@ const ProductSchema = new mongoose.Schema({
 	description: { type: String, },
 	price: { type: Number, required: true, },
 	imageUrl: { type: String, },
-	category: { type: String, required: true, },
+	category: { type: String, required: true, enum: ['Snacks', 'Drinks', 'Light Meals', 'Desserts'], },
 });
 
 module.exports = mongoose.model('Product', ProductSchema);

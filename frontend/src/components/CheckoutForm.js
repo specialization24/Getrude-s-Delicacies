@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import './CheckoutForm.css';
 
 const CheckoutForm = ({ amount, cartItems, clearCart }) => {
@@ -43,13 +44,16 @@ const CheckoutForm = ({ amount, cartItems, clearCart }) => {
 
       if (error) {
         setError(`Payment failed: ${error.message}`);
+        toast.error(`Payment failed: ${error.message}`);
       } else if (paymentIntent.status === 'succeeded') {
         setSuccess(true);
+        toast.success('Payment successful!');
         clearCart();
         navigate('/order-history');
       }
     } catch (err) {
       setError('Something went wrong');
+      toast.error('Something went wrong. Please try again.');
     }
 
     setProcessing(false);
