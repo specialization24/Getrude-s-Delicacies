@@ -8,6 +8,9 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import OrderHistory from './pages/OrderHistory';
 import Checkout from './pages/Checkout';
+import Home from './pages/Home';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import PrivateRoute from './components/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -29,7 +32,10 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
+          <Route path="/" element={<Home addToCart={addToCart} />} />
           <Route path="/" element={<ProductList addToCart={addToCart} />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route
