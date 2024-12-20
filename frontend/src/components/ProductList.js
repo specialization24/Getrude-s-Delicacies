@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
 import './ProductList.css';
+import debounce from 'lodash.debounce';
+import { ClipLoader } from 'react-spinners';
 
 const ProductList = ({ addToCart }) => {
   const [products, setProducts] = useState([]);
@@ -9,26 +11,38 @@ const ProductList = ({ addToCart }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch products function
+  const fetchProducts = async (category, search) => {
+    setLoading(true);
+    setError(null); // Reset error before fetching
+    try {
+      const response = await axios.get('/api/products', {
+        params: {
+          category: category === 'All' ? '' : category,
+          search,
+        },
+      });
+      setProducts(response.data);
+    } catch (error) {
+      setError('Failed to load products. Please try again later.');
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get('/api/products', {
-          params: {
-            category: selectedCategory === 'All' ? '' : selectedCategory,
-            search: searchTerm,
-          },
-        });
-        setProducts(response.data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Debounce the fetchProducts function directly within useEffect
+    const debouncedFetchProducts = debounce(() => {
+      fetchProducts(selectedCategory, searchTerm);
+    }, 500);
 
-    fetchProducts();
+    debouncedFetchProducts();
+
+    // Cleanup function to cancel the debounced call if the component unmounts or dependencies change
+    return () => debouncedFetchProducts.cancel();
   }, [selectedCategory, searchTerm]);
 
   return (
@@ -56,9 +70,14 @@ const ProductList = ({ addToCart }) => {
           />
         </div>
       </div>
-      
+
+      {/* Loading Spinner */}
       {loading ? (
-        <p>Loading products...</p>
+        <div className="loader-container">
+          <ClipLoader color="'3498db" size={50} />
+        </div>
+      ) : error ? (
+        <p>{error}</p>
       ) : (
         <div className="product-grid">
           {products.length > 0 ? (
@@ -66,7 +85,7 @@ const ProductList = ({ addToCart }) => {
               <ProductCard key={product._id} product={product} addToCart={addToCart} />
             ))
           ) : (
-            <p>No products found.</p>
+            <p>No products found matching "{searchTerm}" in the "{selectedCategory}" category.</p>
           )}
         </div>
       )}

@@ -18,20 +18,20 @@ const Navbar = () => {
       <h1>Getrude's Delicacies</h1>
       <div>
         {/* Use NavLink for active link highlighting */}
-        <NavLink to="/" activeClassName="active-link">Home</NavLink>
+        <NavLink to="/" className={({ isActive }) => (isActive ? 'active-link' : '')} >Home</NavLink>
         
         {isLoggedIn ? (
           <>
-            <NavLink to="/cart" activeClassName="active-link">Cart</NavLink>
+            <NavLink to="/cart" className={({ isActive }) => (isActive ? 'active-link' : '')} >Cart</NavLink>
             <button onClick={handleLogout} className="logout-button">
               Logout
             </button>
           </>
         ) : (
           <>
-            <NavLink to="/login" activeClassName="active-link">Login</NavLink>
-            <NavLink to="/signup" activeClassName="active-link">Signup</NavLink>
-            <NavLink to="/order-history" activeClassName="active-link">Order History</NavLink>
+            <NavLink to="/login" className={({ isActive }) => (isActive ? 'active-link' : '')} >Login</NavLink>
+            <NavLink to="/signup" className={({ isActive }) => (isActive ? 'active-link' : '')} >Signup</NavLink>
+            <NavLink to="/order-history" className={({ isActive }) => (isActive ? 'active-link' : '')} >Order History</NavLink>
           </>
         )}
       </div>

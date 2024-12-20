@@ -4,26 +4,27 @@
     justify-content: center;
     gap: 1rem;
     margin-bottom: 1rem;
+    flex-wrap: wrap;
 }
   
  /* Styling for the search bar input */
-.search-bar input {
+ .category-filter select {
     padding: 0.5rem;
     font-size: 1rem;
     border-radius: 4px;
     border: 1px solid #ccc;
+ }
+
+ .search-bar input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);    
 }
 
 .category-filter {
     margin-bottom: 1rem;
     text-align: center;
-}
-  
-.category-filter select {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
 }
 
 .product-grid {
@@ -31,4 +32,9 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
     padding: 1rem;
+}
+
+.product-list-container h2 {
+    text-align: center;
+    margin-bottom: 1rem;
 }

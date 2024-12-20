@@ -18,8 +18,18 @@ router.post('/', async (req, res) => {
 
 // Get products with optional category filter
 router.get('/', async (req, res) => {
-	const { category, page = 1, limit = 8 } = req.query;
-	const filter = category ? { category } : {};
+	const { category, search, page = 1, limit = 8 } = req.query;
+	const filter = {};
+
+	// Filter by category if provided
+	if (category) {
+		filter.category = category;
+	}
+
+	// Case-insensitive search for product name if provided
+	if (search) {
+		filter.name = { $regex: search, $options: 'i' };
+	}
 
 	try {
 		const products = await Product.find(filter).skip((page - 1) * limit).limit(Number(limit));
