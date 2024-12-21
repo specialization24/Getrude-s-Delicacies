@@ -13,6 +13,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import PrivateRoute from './components/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
+import Footer from './components/Footer';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
             }
           />
         </Routes>
+        <Footer />
       </Router>
     </>
   );
