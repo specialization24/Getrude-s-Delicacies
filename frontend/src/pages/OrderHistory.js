@@ -26,29 +26,36 @@ const OrderHistory = () => {
   }, []);
 
   return (
-    <div className="order-history-container">
-      <h2>Your Order History</h2>
-      {error && <p className="error">{error}</p>}
-      {orders.length === 0 ? (
-        <p>No orders found.</p>
-      ) : (
-        <ul>
-          {orders.map((order) => (
-            <li key={order._id}>
-              <h3>Order ID: {order._id}</h3>
-              <p>Total Amount: ${order.totalAmount.toFixed(2)}</p>
-              <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
-              <ul>
-                {order.cartItems.map((item, index) => (
-                  <li key={index}>
-                    {item.name} - ${item.price} x {item.quantity}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="page-container">
+      <div className="content">
+        <h2>Your Order History</h2>
+        {error && <p className="error">{error}</p>}
+        {orders.length === 0 ? (
+          <p>No orders found.</p>
+        ) : (
+          <ul>
+            {orders.map((order) => (
+              <li key={order._id}>
+                <h3>Order ID: {order._id}</h3>
+                <p>Total Amount: ${order.totalAmount.toFixed(2)}</p>
+                <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+                <ul>
+                  {order.cartItems.map((item, index) => (
+                    <li key={index}>
+                      {item.name} - ${item.price} x {item.quantity}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <footer className="footer">
+        <p>Contact Us: support@getrudesdelicacies.com | +123 456 789</p>
+        <p>Follow Us: Facebook | Twitter | Instagram</p>
+        <p>© 2024 Getrude's Delicacies. All Rights Reserved.</p>
+      </footer>
     </div>
   );
 };

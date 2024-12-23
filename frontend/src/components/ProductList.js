@@ -46,49 +46,51 @@ const ProductList = ({ addToCart }) => {
   }, [selectedCategory, searchTerm]);
 
   return (
-    <div className="product-list-container">
-      <h2>Products</h2>
-      <div className="controls">
-        {/* Category Filter */}
-        <div className="category-filter">
-          <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
+    <div className="page-container">
+      <div className="product-list-container">
+        <h2>Products</h2>
+        <div className="controls">
+          <div className="category-filter">
+            <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
         </div>
-        
-        {/* Search Bar */}
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+        {loading ? (
+          <div className="loader-container">
+            <ClipLoader color="'3498db" size={50} />
+          </div>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <div className="product-grid">
+            {products.length > 0 ? (
+              products.map((product) => (
+                <ProductCard key={product._id} product={product} addToCart={addToCart} />
+              ))
+            ) : (
+              <p>No products found matching "{searchTerm}" in the "{selectedCategory}" category.</p>
+            )}
+          </div>
+        )}
       </div>
-
-      {/* Loading Spinner */}
-      {loading ? (
-        <div className="loader-container">
-          <ClipLoader color="'3498db" size={50} />
-        </div>
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
-        <div className="product-grid">
-          {products.length > 0 ? (
-            products.map((product) => (
-              <ProductCard key={product._id} product={product} addToCart={addToCart} />
-            ))
-          ) : (
-            <p>No products found matching "{searchTerm}" in the "{selectedCategory}" category.</p>
-          )}
-        </div>
-      )}
+      <footer className="footer">
+        <div>Contact Us: support@getrudesdelicacies.com</div>
+        <div>Follow Us: Facebook | Twitter | Instagram</div>
+        <div>© 2024 Getrude's Delicacies. All Rights Reserved.</div>
+      </footer>
     </div>
   );
 };
