@@ -34,7 +34,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home addToCart={addToCart} />} />
-          <Route path="/" element={<ProductList addToCart={addToCart} />} />
+          <Route path="/products" element={<ProductList addToCart={addToCart} />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />

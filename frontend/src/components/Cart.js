@@ -34,11 +34,6 @@ const Cart = ({ cart, clearCart }) => {
           </div>
         )}
       </div>
-      <footer className="footer">
-        <p>Contact Us: support@getrudesdelicacies.com | +123 456 789</p>
-        <p>Follow Us: Facebook | Twitter | Instagram</p>
-        <p>© 2024 Getrude's Delicacies. All Rights Reserved.</p>
-      </footer>
     </div>
   )
 };

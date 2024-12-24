@@ -86,12 +86,7 @@ const ProductList = ({ addToCart }) => {
           </div>
         )}
       </div>
-      <footer className="footer">
-        <div>Contact Us: support@getrudesdelicacies.com</div>
-        <div>Follow Us: Facebook | Twitter | Instagram</div>
-        <div>© 2024 Getrude's Delicacies. All Rights Reserved.</div>
-      </footer>
-    </div>
+      </div>
   );
 };
 
