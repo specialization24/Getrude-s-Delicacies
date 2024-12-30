@@ -3,10 +3,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #2d3436;
+  background-color: #ffc0cb;
   padding: 0.5rem 1rem;
   position: relative;
-  color: white;
+  color: #2c3e50;
 }
 
 .navbar-brand {
@@ -23,7 +23,7 @@
 }
 
 .navbar-item {
-  color: #ecf0f1;
+  color: #2c3e50;
   text-decoration: none;
   font-size: 1rem;
   cursor: pointer;
