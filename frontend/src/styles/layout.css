@@ -1,0 +1,13 @@
+/* src/styles/layout.css */
+
+/* Ensures app-container spans full viewport height */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Make content use up remaining space between navbar and footer */
+.content {
+    flex: 1;
+}
