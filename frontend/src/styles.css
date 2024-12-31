@@ -240,3 +240,7 @@ button:disabled {
     font-size: 1.4rem;
   }
 }
+
+
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
