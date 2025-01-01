@@ -1,0 +1,105 @@
+.custom-section {
+    padding: 4rem 1rem;
+    background: #f9f9f9;
+    text-align: center;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .heading-container {
+    margin-bottom: 2rem;
+  }
+  
+  .main-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  
+  .highlight {
+    background: #ff7675;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+  
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .content-container {
+      flex-direction: row;
+      justify-content: center;
+      gap: 3rem;
+    }
+  }
+  
+  .image-box {
+    flex: 1;
+  }
+  
+  .image-large {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .phone-mockup {
+    flex: 1;
+  }
+  
+  .image-phone {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .features-list {
+    margin: 2rem 0;
+    list-style: none;
+    text-align: left;
+    max-width: 600px;
+    margin: 2rem auto;
+    font-size: 1.1rem;
+  }
+  
+  .features-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #2c3e50;
+  }
+  
+  .check-icon {
+    color: #ff7675;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+  }
+  
+  .cta-container {
+    margin-top: 2rem;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: #ff7675;
+    color: white;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #d63031;
+  }
+  
