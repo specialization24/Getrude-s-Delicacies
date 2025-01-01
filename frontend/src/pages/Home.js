@@ -2,6 +2,7 @@
 import React from 'react';
 import Hero from '../components/Hero';
 import Testimonials from '../components/Testimonials';
+import SlideShowSection from '../components/SlideShowSection';
 
 const Home = ({ addToCart }) => {
   
@@ -9,6 +10,7 @@ const Home = ({ addToCart }) => {
     <>
       <Hero />
       <Testimonials />
+      <SlideShowSection />
     </>
   );
 };
