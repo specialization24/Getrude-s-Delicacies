@@ -1,7 +1,7 @@
 // src/pages/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Auth.css';
 
 const Login = () => {
@@ -9,6 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,7 +21,10 @@ const Login = () => {
 
       // Store the JWT token in local storage
       localStorage.setItem('token', response.data.token);
-      navigate('/');
+
+      // Redirect to intended page or default to home
+      const redirectTo = new URLSearchParams(location.search).get("redirect") || '/';
+      navigate(redirectTo);
     } catch (err) {
       setError('Invalid credentials. Please try again.');
     }

@@ -1,7 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./CustomSection.css";
 
 const CustomSection = () => {
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("token");
+
+  const handleOrderClick = () => {
+    if (isLoggedIn) {
+      navigate("/products"); // Redirects to product page
+    } else {
+      navigate("/login?redirect=/products"); // Redirects to loginwith a redirect redirect query
+    }
+  };
+
   return (
     <section className="custom-section">
       <div className="container">
@@ -21,6 +33,7 @@ const CustomSection = () => {
               src="/images/delicacies/featured-dish.jpg"
               alt="Featured Dish"
               className="image-large"
+              loading="lazy"
             />
           </div>
 
@@ -30,6 +43,7 @@ const CustomSection = () => {
               src="/images/delicacies/featured-mobile.jpg"
               alt="Order on Mobile"
               className="image-phone"
+              loading="lazy"
             />
           </div>
         </div>
@@ -52,9 +66,9 @@ const CustomSection = () => {
 
         {/* Call-to-Action */}
         <div className="cta-container">
-          <a href="/login" className="cta-button">
+          <button onClick={handleOrderClick} className="cta-button">
             Place Your Order Now
-          </a>
+          </button>
         </div>
       </div>
     </section>

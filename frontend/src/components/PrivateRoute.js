@@ -1,12 +1,17 @@
 // src/components/PrivateRoute.js
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token'); // Checks if user is logged in
+  const location = useLocation(); // Gets current location
 
   // If there's no token, redirect to the login page
-  return token ? children : <Navigate to="/login" />;
+  if (!token) {
+    return <Navigate to="/login" state={{ from: location }} replace />
+  }
+
+  return children;
 };
 
 export default PrivateRoute;
