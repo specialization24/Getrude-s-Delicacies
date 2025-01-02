@@ -27,21 +27,35 @@
   text-decoration: none;
   font-size: 1rem;
   cursor: pointer;
-  transition: color 0.3s;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;  /* For hover background styling */
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .navbar-item:hover {
+  background-color: #ffe6f0;
+  color: #74b9ff;
+}
+
+.navbar-item svg {
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  color: #2c3e50;
+  transition: color 0.3s;
+}
+
+.navbar-item svg:hover {
   color: #74b9ff;
 }
 
 /* Active link Underline fix */
 .navbar-item.active-link {
+  background-color: #ffe6f0; /* Light pink for active link */
+  color: #2c3e50;
   font-weight: bold;
-  border-bottom: 2px solid #74b9ff;
-  display: inline-block;
-  padding-bottom: 5px;
 }
 
+/* Hamburger Button */
 .navbar-toggle {
   display: none;
   background: none;
@@ -51,6 +65,7 @@
   cursor: pointer;
 }
 
+/* Logout button */
 .logout-button {
   background-color: #e77f67;
   border: none;
@@ -60,17 +75,12 @@
   cursor: pointer;
   border-radius: 4px;
   font-size: 1rem;
-  transition: color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .logout-button:hover {
   background-color: #ff6b6b;
   color: #e74c3c;
-}
-
-.active-link {
-  font-weight: bold;
-  border-bottom: 2px solid #74b9ff;
 }
 
 /* Mobile Styles */
@@ -101,13 +111,25 @@
     max-height: 500px; /* Adjust for your content */
   }
 
-  .navbar-toggle {
-    display: block;
-  }
-
   .navbar-item {
     display: block;
     margin: 0.5rem 0;
+    text-align: center;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+  }
+
+  .navbar-item:hover {
+    background-color: #3d3d3d;
+  }
+
+  .navbar-item.active-link {
+    background-color: #ff6b6b;
+    color: white;
+  }
+
+  .navbar-toggle {
+    display: block;
   }
 }
 

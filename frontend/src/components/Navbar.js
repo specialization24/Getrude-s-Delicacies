@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -11,9 +12,14 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
+    closeMenu();
   };
 
   return (
@@ -30,16 +36,16 @@ const Navbar = () => {
 
       {/* Menu Links */}
       <div className={`navbar-menu ${isMenuOpen ? "active" : ""}`}>
-        <NavLink to="/" className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}>
+        <NavLink to="/" onClick={closeMenu} className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}>
           Home
         </NavLink>
         {isLoggedIn ? (
           <>
-            <NavLink to="/cart" className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}>
-              Cart
+            <NavLink to="/cart" onClick={closeMenu} className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}>
+              <FaShoppingCart size={20} /> {/* Cart Icon */}
             </NavLink>
             <NavLink
-              to="/order-history"
+              to="/order-history" onClick={closeMenu}
               className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}
             >
               Order History
@@ -50,10 +56,10 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <NavLink to="/login" className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}>
+            <NavLink to="/login" onClick={closeMenu} className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}>
               Login
             </NavLink>
-            <NavLink to="/signup" className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}>
+            <NavLink to="/signup" onClick={closeMenu} className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}>
               Signup
             </NavLink>
           </>
