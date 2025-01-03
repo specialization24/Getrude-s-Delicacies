@@ -12,38 +12,46 @@ const ProductList = ({ addToCart }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  // Fetch products function
-  const fetchProducts = async (category, search) => {
+  const fetchProducts = async (category, search, page = 1) => {
     setLoading(true);
-    setError(null); // Reset error before fetching
+    setError(null);
     try {
       const response = await axios.get('/api/products', {
         params: {
           category: category === 'All' ? '' : category,
           search,
+          page,
+          limit: 8,
         },
       });
-      setProducts(response.data);
+      setProducts(response.data.products);
+      setTotalPages(response.data.totalPages);
+      setCurrentPage(response.data.currentPage);
     } catch (error) {
       setError('Failed to load products. Please try again later.');
-      console.error('Error fetching products:', error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    // Debounce the fetchProducts function directly within useEffect
     const debouncedFetchProducts = debounce(() => {
-      fetchProducts(selectedCategory, searchTerm);
+      fetchProducts(selectedCategory, searchTerm, currentPage);
     }, 500);
 
     debouncedFetchProducts();
 
-    // Cleanup function to cancel the debounced call if the component unmounts or dependencies change
     return () => debouncedFetchProducts.cancel();
-  }, [selectedCategory, searchTerm]);
+  }, [selectedCategory, searchTerm, currentPage]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
 
   return (
     <div className="page-container">
@@ -73,20 +81,35 @@ const ProductList = ({ addToCart }) => {
             <ClipLoader color="'3498db" size={50} />
           </div>
         ) : error ? (
-          <p>{error}</p>
+          <p className="error-message">{error}</p>
         ) : (
-          <div className="product-grid">
-            {products.length > 0 ? (
-              products.map((product) => (
-                <ProductCard key={product._id} product={product} addToCart={addToCart} />
-              ))
-            ) : (
-              <p>No products found matching "{searchTerm}" in the "{selectedCategory}" category.</p>
+          <>
+            <div className="product-grid">
+              {products.length > 0 ? (
+                products.map((product) => (
+                  <ProductCard key={product._id} product={product} addToCart={addToCart} />
+                ))
+              ) : (
+                <p>No products found matching "{searchTerm}" in the "{selectedCategory}" category.</p>
+              )}
+            </div>
+            {products.length > 0 && (
+              <div className="pagination">
+                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                  Previous
+                </button>
+                <span>
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                  Next
+                </button>
+              </div>
             )}
-          </div>
+          </>
         )}
       </div>
-      </div>
+    </div>
   );
 };
 

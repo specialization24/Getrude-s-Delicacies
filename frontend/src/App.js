@@ -13,6 +13,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import PrivateRoute from './components/PrivateRoute';
+import ProductDetail from './pages/ProductDetail';
 import ScrollToTop from './components/ScrollToTop';
 import { ToastContainer } from 'react-toastify';
 import './styles/layout.css';
@@ -68,6 +69,7 @@ function App() {
                   </PrivateRoute>
                 }
               />
+              <Route path="/products/:id" element={<ProductDetail />} />
             </Routes>
           </div>
           <Footer />

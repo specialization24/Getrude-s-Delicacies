@@ -1,19 +1,30 @@
 // routes/products.js
 const express = require('express');
+const { check, validationResult } = require('express-validator');
 const router = express.Router();
 const Product = require('../models/Product');
 
 // Add a new product
-router.post('/', async (req, res) => {
-	const { name, description, price, imageUrl, category } = req.body;
+router.post('/', [
+	check('name').notEmpty().withMessage('Name is required'),
+	check('price').isNumeric().withMessage('Price must be a number'),
+	check('description').notEmpty().withMessage('Description is required'),
+	check('category').isIn(['Snacks', 'Drinks', 'Light Meals', 'Desserts']).withMessage('Category must be one of: Snacks, Drinks, Light Meals, Desserts')], 
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ errors: errors.array() });
+		}
 
-	try {
-		const newProduct = new Product({ name, description, price, imageUrl, category });
-		await newProduct.save();
-		res.status(201).json(newProduct);
-	} catch (err) {
-		res.status(500).json({ error: 'Server error' });
-	}
+		const { name, description, price, imageUrl, category } = req.body;
+
+		try {
+			const newProduct = new Product({ name, description, price, imageUrl, category });
+			await newProduct.save();
+			res.status(201).json(newProduct);
+		} catch (err) {
+			res.status(500).json({ error: 'Server error' });
+		}
 });
 
 // Get products with optional category filter
