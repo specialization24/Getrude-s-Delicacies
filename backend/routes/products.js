@@ -1,11 +1,13 @@
 // routes/products.js
 const express = require('express');
 const { check, validationResult } = require('express-validator');
+const { adminMiddleware } = require('../middleware/authMiddleware');
 const router = express.Router();
 const Product = require('../models/Product');
 
-// Add a new product
+// Add a new product (Admin only)
 router.post('/', [
+	adminMiddleware,
 	check('name').notEmpty().withMessage('Name is required'),
 	check('price').isNumeric().withMessage('Price must be a number'),
 	check('description').notEmpty().withMessage('Description is required'),
@@ -25,7 +27,8 @@ router.post('/', [
 		} catch (err) {
 			res.status(500).json({ error: 'Server error' });
 		}
-});
+	}
+);
 
 // Get products with optional category filter
 router.get('/', async (req, res) => {
@@ -68,8 +71,8 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-// Update a product by ID
-router.put('/:id', async (req, res) => {
+// Update a product by ID (Admin only)
+router.put('/:id', adminMiddleware, async (req, res) => {
 	try {
 		const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
 		if (!product) return res.status(404).json({ error: 'Product not found' });
@@ -79,8 +82,8 @@ router.put('/:id', async (req, res) => {
 	}
 });
 
-// Delete a product by ID
-router.delete('/:id', async (req, res) => {
+// Delete a product by ID (Admin only)
+router.delete('/:id', adminMiddleware, async (req, res) => {
 	try {
 		const product = await Product.findByIdAndDelete(req.params.id);
 		if (!product) return res.status(404).json({ error: 'Product not found' });

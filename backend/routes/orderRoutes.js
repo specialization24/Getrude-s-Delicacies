@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
-const authMiddleware = require('../middleware/authMiddleware');
+const { authMiddleware } = require('../middleware/authMiddleware');
 
 // Place an order (requires authentication)
 router.post('/', authMiddleware, async (req, res) => {

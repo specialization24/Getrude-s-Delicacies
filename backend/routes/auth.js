@@ -8,7 +8,7 @@ const router = express.Router();
 
 // Signup Route
 router.post('/signup', async (req, res) => {
-	const { name, email, password } = req.body;
+	const { name, email, password, isAdmin } = req.body;
 
 	try {
 		// Check if user already exists
@@ -20,7 +20,7 @@ router.post('/signup', async (req, res) => {
 		const hashedPassword = await bcrypt.hash(password, salt);
 
 		// Create new user
-		user = new User({ name, email, password: hashedPassword });
+		user = new User({ name, email, password: hashedPassword, isAdmin });
 		await user.save();
 
 		res.status(201).json({ message: 'User created successfully' });
@@ -43,7 +43,7 @@ router.post('/login', async (req, res) => {
 		if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
 		// Create JWT token
-		const payload = { id: user.id, name: user.name };
+		const payload = { id: user.id, name: user.name, isAdmin: user.isAdmin };
 		const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
 		res.json({ token });

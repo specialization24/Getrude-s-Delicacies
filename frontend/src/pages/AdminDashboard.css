@@ -1,0 +1,25 @@
+/* src/pages/AdminDashboard.css */
+.admin-dashboard {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .admin-dashboard form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .admin-dashboard .product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .admin-dashboard .product-item {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  

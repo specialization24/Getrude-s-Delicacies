@@ -7,6 +7,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("token");
+  const token = localStorage.getItem("token")
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -21,6 +22,8 @@ const Navbar = () => {
     navigate("/login");
     closeMenu();
   };
+
+  const isAdmin = token ? JSON.parse(atob(token.split(".")[1])).isAdmin : false;
 
   return (
     <nav className="navbar">
@@ -39,6 +42,11 @@ const Navbar = () => {
         <NavLink to="/" onClick={closeMenu} className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}>
           Home
         </NavLink>
+        {isAdmin && (
+          <NavLink to="/admin" className="navbar-item">
+            Admin Dashboard
+          </NavLink>
+        )}
         {isLoggedIn ? (
           <>
             <NavLink to="/cart" onClick={closeMenu} className={({ isActive }) => (isActive ? "active-link navbar-item" : "navbar-item")}>

@@ -17,4 +17,13 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+const adminMiddleware = (req, res, next) => {
+  authMiddleware(req, res, () => {
+    if (!req.user || !req.user.isAdmin) {
+      return res.status(403).json({ message: 'Access denied. Admins only.' });
+    }
+    next();
+  });
+};
+
+module.exports = { authMiddleware, adminMiddleware };
