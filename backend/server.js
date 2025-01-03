@@ -29,6 +29,11 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).json({ error: 'Server error' });
+});
+
 // Basic Route
 app.get('/', (req, res) => {
 	res.send('Welcome to Getrude\'s Delicacies Backend!');
