@@ -10,23 +10,35 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading , setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', {
         email,
         password,
       });
 
-      // Store the JWT token in local storage
-      localStorage.setItem('token', response.data.token);
+      const token = response.data.token;
 
-      // Redirect to intended page or default to home
-      const redirectTo = new URLSearchParams(location.search).get("redirect") || '/';
+      // Store the JWT token in local storage
+      localStorage.setItem('token', token);
+
+      // Decode the token to check admin statu
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      const redirectTo = decoded.isAdmin ? '/admin' : new URLSearchParams(location.search).get("redirect") || '/';
+      
       navigate(redirectTo);
     } catch (err) {
-      setError('Invalid credentials. Please try again.');
+      if (err.response && err.response.status === 401) {
+        setError('Invalid credentials. Please try again.');
+      } else {
+        setError('Something went wrong. Please try again later.');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -43,7 +55,9 @@ const Login = () => {
             <label>Password:</label>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
           {error && <p className="error">{error}</p>}
         </form>
       </div>

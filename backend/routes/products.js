@@ -2,8 +2,8 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
 const { adminMiddleware } = require('../middleware/authMiddleware');
-const router = express.Router();
 const Product = require('../models/Product');
+const router = express.Router();
 
 // Add a new product (Admin only)
 router.post('/', [
@@ -86,9 +86,12 @@ router.put('/:id', adminMiddleware, async (req, res) => {
 router.delete('/:id', adminMiddleware, async (req, res) => {
 	try {
 		const product = await Product.findByIdAndDelete(req.params.id);
-		if (!product) return res.status(404).json({ error: 'Product not found' });
+		if (!product) {
+			return res.status(404).json({ error: 'Product not found' });
+		}
 		res.json({ message: 'Product deleted' });
 	} catch (err) {
+		console.error(err);
 		res.status(500).json({ error: 'Server error' });
 	}
 });

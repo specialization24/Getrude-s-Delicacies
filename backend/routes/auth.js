@@ -11,6 +11,9 @@ router.post('/signup', async (req, res) => {
 	const { name, email, password, isAdmin } = req.body;
 
 	try {
+		// Default to false if isAdmin isn't provided
+		const adminFlag = isAdmin || false;
+
 		// Check if user already exists
 		let user = await User.findOne({ email });
 		if (user) return res.status(400).json({ message: 'User already exists' });
@@ -20,7 +23,7 @@ router.post('/signup', async (req, res) => {
 		const hashedPassword = await bcrypt.hash(password, salt);
 
 		// Create new user
-		user = new User({ name, email, password: hashedPassword, isAdmin });
+		user = new User({ name, email, password: hashedPassword, isAdmin: adminFlag });
 		await user.save();
 
 		res.status(201).json({ message: 'User created successfully' });

@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import Login from './pages/Login';
+import AdminRoute from './components/AdminRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import Signup from './pages/Signup';
 import OrderHistory from './pages/OrderHistory';
@@ -41,7 +42,9 @@ function App() {
           <div className="content">
             <Routes>
               <Route path="/" element={<Home addToCart={addToCart} />} />
-              <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
+              <Route path="/admin" element={<AdminRoute />}>
+                <Route index element={<AdminDashboard />} />
+              </Route>
               <Route path="/products" element={<ProductList addToCart={addToCart} />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
