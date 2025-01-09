@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { ClipLoader } from 'react-spinners';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -11,42 +12,82 @@ const AdminDashboard = () => {
     imageUrl: '',
     category: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const [editing, setEditing] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [page]);
 
   const fetchProducts = async () => {
+    setFetching(true);
     try {
-      const response = await axios.get('/api/products');
+      const response = await axios.get('http://localhost:5000/api/products', {
+        params: { page, limit: 8 },
+      });
       setProducts(response.data.products);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error('Error fetching products:', error);
+    } finally {
+      setFetching(false);
     }
   };
 
-  const handleAddProduct = async (e) => {
+  const handleAddOrUpdateProduct = async (e) => {
     e.preventDefault();
+    if (!newProduct.name || !newProduct.price || !newProduct.category) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/products', newProduct, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
-      console.log('Product added:', response.data);
+      if (editing) {
+        // Update existing product
+        await axios.put(`http://localhost:5000/api/products/${newProduct._id}`, newProduct, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        });
+        alert('Product updated successfully!');
+      } else {
+        // Add new product
+        await axios.post('http://localhost:5000/api/products', newProduct, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        });
+        alert('Product added successfully!');
+      }
       setNewProduct({ name: '', description: '', price: '', imageUrl: '', category: '' });
+      setEditing(false);
       fetchProducts();
     } catch (error) {
-      console.error('Error adding product:', error.response?.data || error.message);
+      console.error('Error:', error.response ? error.response.data : error.message);
+      alert('Failed to save product. Please try again.');
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleEditProduct = (id) => {
+    const product = products.find((p) => p._id === id);
+    setNewProduct(product);
+    setEditing(true);
   };
 
   const handleDeleteProduct = async (id) => {
+    setLoading(true);
     try {
-      await axios.delete(`/api/products/${id}`, {
+      await axios.delete(`http://localhost:5000/api/products/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
+      alert('Product deleted successfully!');
       fetchProducts();
     } catch (error) {
       console.error('Error deleting product:', error);
+      alert('Failed to delete product.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,8 +95,8 @@ const AdminDashboard = () => {
     <div className="admin-dashboard">
       <h2>Admin Dashboard</h2>
 
-      {/* Add Product Form */}
-      <form onSubmit={handleAddProduct}>
+      {/* Add or Edit Product Form */}
+      <form onSubmit={handleAddOrUpdateProduct}>
         <input
           type="text"
           placeholder="Name"
@@ -89,20 +130,47 @@ const AdminDashboard = () => {
           <option value="Light Meals">Light Meals</option>
           <option value="Desserts">Desserts</option>
         </select>
-        <button type="submit">Add Product</button>
+        <button type="submit" disabled={loading}>
+          {loading ? (editing ? 'Updating...' : 'Adding...') : editing ? 'Update Product' : 'Add Product'}
+        </button>
       </form>
 
       {/* Product List */}
-      <div className="product-list">
-        {products.map((product) => (
-          <div key={product._id} className="product-item">
-            <h3>{product.name}</h3>
-            <p>{product.description}</p>
-            <p>${product.price}</p>
-            <button onClick={() => handleDeleteProduct(product._id)}>Delete</button>
-          </div>
-        ))}
-      </div>
+      {fetching ? (
+        <div className="loader-container">
+          <ClipLoader color="#3498db" size={50} />
+        </div>
+      ) : (
+        <div className="product-list">
+          {products.map((product) => (
+            <div key={product._id} className="product-item">
+              <img src={product.imageUrl} alt={product.name} className="product-image" />
+              <h3>{product.name}</h3>
+              <p>{product.description}</p>
+              <p>${product.price}</p>
+              <div className="action-buttons">
+                <button onClick={() => handleEditProduct(product._id)}>Edit</button>
+                <button onClick={() => handleDeleteProduct(product._id)}>Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button onClick={() => setPage(page - 1)} disabled={page === 1}>
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };
