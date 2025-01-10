@@ -11,6 +11,7 @@ router.post('/', [
 	check('name').notEmpty().withMessage('Name is required'),
 	check('price').isNumeric().withMessage('Price must be a number'),
 	check('description').notEmpty().withMessage('Description is required'),
+	check('imageUrl').notEmpty().withMessage('Image Url is required'),
 	check('category').isIn(['Snacks', 'Drinks', 'Light Meals', 'Desserts']).withMessage('Category must be one of: Snacks, Drinks, Light Meals, Desserts')], 
 	async (req, res) => {
 		const errors = validationResult(req);

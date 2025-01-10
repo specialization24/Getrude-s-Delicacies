@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { ClipLoader } from 'react-spinners';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -13,16 +12,12 @@ const AdminDashboard = () => {
     category: '',
   });
   const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(true);
+  const [fetching, setFetching] = useState(false);
   const [editing, setEditing] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchProducts();
-  }, [page]);
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     setFetching(true);
     try {
       const response = await axios.get('http://localhost:5000/api/products', {
@@ -35,7 +30,11 @@ const AdminDashboard = () => {
     } finally {
       setFetching(false);
     }
-  };
+  }, [page]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [page, fetchProducts]);
 
   const handleAddOrUpdateProduct = async (e) => {
     e.preventDefault();
@@ -46,13 +45,11 @@ const AdminDashboard = () => {
     setLoading(true);
     try {
       if (editing) {
-        // Update existing product
         await axios.put(`http://localhost:5000/api/products/${newProduct._id}`, newProduct, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         alert('Product updated successfully!');
       } else {
-        // Add new product
         await axios.post('http://localhost:5000/api/products', newProduct, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
@@ -137,9 +134,7 @@ const AdminDashboard = () => {
 
       {/* Product List */}
       {fetching ? (
-        <div className="loader-container">
-          <ClipLoader color="#3498db" size={50} />
-        </div>
+        <div>Loading...</div>
       ) : (
         <div className="product-list">
           {products.map((product) => (
