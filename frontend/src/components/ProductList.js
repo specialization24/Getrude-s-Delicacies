@@ -4,6 +4,8 @@ import ProductCard from './ProductCard';
 import './ProductList.css';
 import debounce from 'lodash.debounce';
 import { ClipLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductList = ({ addToCart }) => {
   const [products, setProducts] = useState([]);
@@ -47,6 +49,11 @@ const ProductList = ({ addToCart }) => {
     return () => debouncedFetchProducts.cancel();
   }, [selectedCategory, searchTerm, currentPage]);
 
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    toast.success(`${product.name} added to cart!`);
+  };
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
@@ -87,7 +94,7 @@ const ProductList = ({ addToCart }) => {
             <div className="product-grid">
               {products.length > 0 ? (
                 products.map((product) => (
-                  <ProductCard key={product._id} product={product} addToCart={addToCart} />
+                  <ProductCard key={product._id} product={product} addToCart={() => handleAddToCart(product)} />
                 ))
               ) : (
                 <p>No products found matching "{searchTerm}" in the "{selectedCategory}" category.</p>
